@@ -23,7 +23,7 @@ jobs:
           java-version: "17"
 
       - name: Installer les dépendances
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build web (Vite)
         run: npm run build
