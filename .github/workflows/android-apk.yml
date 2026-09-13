@@ -1,0 +1,52 @@
+name: Build Android APK
+
+# Se déclenche à chaque push sur main, et peut aussi être relancé
+# manuellement depuis l'onglet "Actions" du dépôt sur GitHub.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Installer les dépendances
+        run: npm install
+
+      - name: Build web (Vite)
+        run: npm run build
+
+      - name: Ajouter la plateforme Android
+        run: npx cap add android
+
+      - name: Copier le son d'alarme dans les ressources natives
+        run: |
+          mkdir -p android/app/src/main/res/raw
+          cp client/public/alarm.mp3 android/app/src/main/res/raw/alarm.mp3
+
+      - name: Synchroniser Capacitor
+        run: npx cap sync android
+
+      - name: Construire l'APK debug
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Publier l'APK comme fichier téléchargeable
+        uses: actions/upload-artifact@v4
+        with:
+          name: haricotmanager-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk

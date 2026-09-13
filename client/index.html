@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="theme-color" content="#166534" />
+    <meta name="description" content="HaricotManager : parcelles, dépenses, planning et stock, même sans connexion." />
+
+    <!--
+      No manual <link rel="manifest"> here: vite-plugin-pwa generates
+      manifest.webmanifest from the `manifest` option in vite.config.ts and
+      injects the <link> tag into the built HTML itself. Adding it by hand
+      too would risk a duplicate/mismatched tag after build.
+    -->
+
+    <!-- Icons: real local files, not the broken /manus-storage/* paths from the dev sandbox -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/pwa-192x192.png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <!-- iOS "Add to Home Screen" support (Safari ignores manifest.json entirely) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="HaricotManager" />
+
+    <!-- Windows tiles (harmless no-op elsewhere) -->
+    <meta name="msapplication-TileColor" content="#166534" />
+
+    <title>HaricotManager PWA</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script defer src="%VITE_ANALYTICS_ENDPOINT%/umami" data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+  </body>
+</html>

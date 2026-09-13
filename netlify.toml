@@ -1,0 +1,69 @@
+[build]
+  # Only the Vite build is needed for a static Netlify deploy — the
+  # esbuild step in `npm run build` bundles server/index.ts, an Express
+  # static server that's only used for local `npm start`, not on Netlify.
+  command = "npx vite build"
+  publish = "dist/public"
+
+# SPA fallback: let wouter's client-side router handle every path.
+# (No effect on the service worker's own offline navigation fallback,
+# which is configured separately in vite.config.ts.)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# --- Web App Manifest -------------------------------------------------
+# Chrome's installability check is strict about the response Content-Type;
+# without this it sometimes falls back to "Add shortcut" instead of "Install app".
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# --- Service worker -----------------------------------------------------
+# Never let Netlify's CDN or the browser cache the SW file itself, or updates
+# to the app (new precache list) will never reach installed users.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/registerSW.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/workbox-*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# --- Hashed build assets --------------------------------------------------
+# Vite fingerprints these filenames, so far-future caching is safe.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# --- Icons / images: cache, but allow revalidation ------------------------
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# --- Baseline security headers on everything -------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

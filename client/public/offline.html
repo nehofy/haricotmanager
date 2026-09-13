@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#166534" />
+    <title>Hors ligne — HaricotManager</title>
+    <style>
+      html, body { height: 100%; margin: 0; }
+      body {
+        display: grid;
+        place-items: center;
+        font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #0f172a;
+        color: #f5f4ed;
+        text-align: center;
+        padding: 24px;
+      }
+      .card { max-width: 380px; }
+      .badge {
+        width: 64px; height: 64px; margin: 0 auto 18px;
+        border-radius: 16px; background: #166534;
+        display: grid; place-items: center;
+      }
+      h1 { font-size: 1.35rem; margin: 0 0 10px; }
+      p { color: #cbd5c9; font-size: 0.9rem; line-height: 1.5; margin: 0 0 20px; }
+      button {
+        background: #166534; color: #fff; border: 0; border-radius: 8px;
+        padding: 11px 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      }
+      button:hover { background: #15803d; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="badge" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f5f4ed" stroke-width="2">
+          <path d="M12 20h.01" /><path d="M8.5 16.5a5 5 0 0 1 7 0" />
+          <path d="M5 12.5a10 10 0 0 1 14 0" /><path d="M2 8.5a15 15 0 0 1 20 0" />
+          <line x1="2" y1="2" x2="22" y2="22" />
+        </svg>
+      </div>
+      <h1>Connexion indisponible</h1>
+      <p>
+        Cette page n'a pas encore été mise en cache pour un usage hors ligne.
+        Vos parcelles, dépenses et stocks déjà enregistrés restent accessibles
+        depuis l'application — retournez à l'accueil ou réessayez une fois le
+        réseau revenu.
+      </p>
+      <button onclick="location.href='/'">Retour à l'application</button>
+    </div>
+  </body>
+</html>
